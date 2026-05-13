@@ -5,8 +5,8 @@ import heroImg from './assets/hero.png'
 import './App.css'
 
 function App() {
-  
-  
+  const [peliculasBuscadas, setPeliculas] = useState([]);
+  <SearchBar setPeliculas={setPeliculas} />
 }
 
 export default App
