@@ -1,34 +1,26 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import style from "./searchBar.module.css";
 
-function SearchBar({ setPeliculas }) {
+function SearchBar({ setMovieList }) {
   const [busqueda, setBusqueda] = useState("");
 
-useEffect(() => {
-
- }, [busqueda])
-  
-  const buscarPeliculas = (e) => {
+  const buscarPeliculas = async (e) => {
     e.preventDefault();
-    const cancionBuscada = e.target.busqueda.value;
-    setBusqueda(cancionBuscada);
-    conseguirPeliculas();
+    const peliculaBuscada = e.target.busqueda.value;
+    setBusqueda(peliculaBuscada);
+    const respuesta = await axios.get(`http://www.omdbapi.com/?apikey=65b4b58d&s=${peliculaBuscada}`);
+    setMovieList(respuesta.data.Search);
   };
 
-  async conseguirPeliculas() => {
-      const respuesta = await axios.get(
-   `http://www.omdbapi.com/?apikey=TU_KEY&s=${busqueda}`
-)
-  }
-
   return (
-      <form onSubmit={buscarPeliculas}>
-        <input
-          type="text"
-          placeholder="Busca peliculas..."
-          name = "busqueda"
-        />
-        <button>Buscar</button>
-      </form>
-) };  
+    <form onSubmit={buscarPeliculas}>
+      <input
+        type="text"
+        placeholder="Busca peliculas..."
+        name="busqueda"
+      />
+      <button>Buscar</button>
+    </form>
+  );
+}
+export default SearchBar;
